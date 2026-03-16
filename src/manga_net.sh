@@ -1,7 +1,7 @@
 #!/bin/bash
 
-user_id=0
 api="https://api.aninetapi.com/api/Manga"
+user_id=0
 user_agent="Dart/2.19 (dart:io)"
 
 function _get() {
@@ -56,10 +56,21 @@ function register() {
     _post "Register" "{\"name\":\"$1\",\"email\":\"$2\",\"password\":\"$3\"}"
 }
 
-function get_cookies()     { _get "GetCookies"; }
-function get_update_link() { _get "GetUpdateLink"; }
-function get_genres()      { _get "Genre"; }
-function get_avatars()     { _get "MangaAvatars"; }
+function get_cookies() {
+    _get "GetCookies"
+}
+
+function get_update_link() {
+    _get "GetUpdateLink"
+}
+
+function get_genres() {
+    _get "Genre"
+}
+
+function get_avatars() {
+    _get "MangaAvatars"
+}
 
 # 1 - user_id: (integer): <user_id>
 function get_user_info() {
@@ -188,14 +199,17 @@ function remove_friend_request() {
 # 2 - text: (string): <text>
 # 3 - is_spoiler: (boolean): <true, false - default: false>
 function comment_manga() {
-    _post "Comment" "{\"userId\":\"$user_id\",\"mangaId\":\"$1\",\"text\":\"$2\",\"spoilers\":\"${3:-false}\"}" auth
+    _post "Comment" \
+        "{\"userId\":\"$user_id\",\"mangaId\":\"$1\",\"text\":\"$2\",\"spoilers\":\"${3:-false}\"}" \
+        auth
 }
 
 # 1 - comment_id: (integer): <comment_id>
 # 2 - text: (string): <text>
 # 3 - is_spoiler: (boolean): <true, false - default: false>
 function edit_comment() {
-    _put "Comment" "{\"commentId\":\"$1\",\"text\":\"$2\",\"isSpoiler\":\"${3:-false}\"}"
+    _put "Comment" \
+        "{\"commentId\":\"$1\",\"text\":\"$2\",\"isSpoiler\":\"${3:-false}\"}"
 }
 
 # 1 - comment_id: (integer): <comment_id>
@@ -206,7 +220,9 @@ function delete_comment() {
 # 1 - comment_id: (integer): <comment_id>
 # 2 - is_like: (boolean): <true, false - default: true>
 function like_comment() {
-    _post "CommentLike" "{\"userId\":\"$user_id\",\"commentId\":\"$1\",\"isLike\":\"${2:-true}\"}" auth
+    _post "CommentLike" \
+        "{\"userId\":\"$user_id\",\"commentId\":\"$1\",\"isLike\":\"${2:-true}\"}" \
+        auth
 }
 
 # 1 - username: (string): <username - default: null>
@@ -215,5 +231,6 @@ function like_comment() {
 # 4 - is_yaoi: (boolean): <true, false - default: null>
 # 5 - is_incognito: (boolean): <true, false - default: null>
 function edit_profile() {
-    _put "ChangeUserInfo" "{\"userId\":\"$user_id\",\"userName\":${1:-null},\"avatarId\":${2:-0},\"isHentai\":${3:-null},\"isYaoi\":${4:-null},\"isIncognito\":${5:-null}}"
+    _put "ChangeUserInfo" \
+        "{\"userId\":\"$user_id\",\"userName\":${1:-null},\"avatarId\":${2:-0},\"isHentai\":${3:-null},\"isYaoi\":${4:-null},\"isIncognito\":${5:-null}}"
 }
